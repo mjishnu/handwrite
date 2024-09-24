@@ -1,3 +1,4 @@
+import itertools
 import json
 import os
 import sys
@@ -127,9 +128,9 @@ class SVGtoTTF:
             Config dictionary with kerning values/autokern bool.
         """
         rows = table["rows"]
-        rows = [list(i) if i != None else None for i in rows]
+        rows = [list(i) if i is not None else None for i in rows]
         cols = table["cols"]
-        cols = [list(i) if i != None else None for i in cols]
+        cols = [list(i) if i is not None else None for i in cols]
 
         self.font.addLookup("kern", "gpos_pair", 0, [["kern", [["latn", ["dflt"]]]]])
 
@@ -141,12 +142,8 @@ class SVGtoTTF:
             kerning_table = table.get("table", False)
             if not kerning_table:
                 raise ValueError("Kerning offsets not found in the config file.")
-            flatten_list = (
-                lambda y: [x for a in y for x in flatten_list(a)]
-                if type(y) is list
-                else [y]
-            )
-            offsets = [0 if x is None else x for x in flatten_list(kerning_table)]
+            flattened_kerning_table = list(itertools.chain.from_iterable(kerning_table))
+            offsets = [0 if x is None else x for x in flattened_kerning_table]
             self.font.addKerningClass("kern", "kern-1", rows, cols, offsets)
 
     def generate_font_file(self, filename, outdir, config_file):
