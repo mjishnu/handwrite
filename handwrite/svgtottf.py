@@ -1,6 +1,6 @@
-import sys
-import os
 import json
+import os
+import sys
 import uuid
 
 
@@ -22,8 +22,8 @@ class SVGtoTTF:
         metadata : dict
             Dictionary containing the metadata (filename, family or style)
         """
-        import subprocess
         import platform
+        import subprocess
 
         subprocess.run(
             (

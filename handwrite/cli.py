@@ -1,16 +1,16 @@
+import argparse
 import os
 import shutil
-import argparse
 import tempfile
 
-from handwrite import SHEETtoPNG
-from handwrite import PNGtoSVG
-from handwrite import SVGtoTTF
+from bmptosvg import BMPtoSVG
+from sheettobmp import SHEETtoBMP
+from svgtottf import SVGtoTTF
 
 
 def run(sheet, output_directory, characters_dir, config, metadata):
-    SHEETtoPNG().convert(sheet, characters_dir, config)
-    PNGtoSVG().convert(directory=characters_dir)
+    SHEETtoBMP().convert(sheet, characters_dir, config)
+    BMPtoSVG().convert(directory=characters_dir)
     SVGtoTTF().convert(characters_dir, output_directory, config, metadata)
 
 
